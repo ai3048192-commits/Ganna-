@@ -389,11 +389,8 @@ export default function Home({ onLogout }) {
 
           <div className="space-y-2">
             <h3 className="text-lg sm:text-xl font-bold text-[#f5f0fb]">
-              أغنيتنا المفضلة 🤍
-            </h3>
-            <p className="text-[#a491bc] text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
-              هذه الأغنية تحمل ذكريات كل لحظة حلوة جمعتنا.. اضغط بالأسفل للاستماع إليها.
-            </p>
+اغنيه دي بتوصفني و بتوصف كل كلمه انا عايز اقولها ليكي             </h3>
+         
           </div>
 
           <div className="pt-2">
