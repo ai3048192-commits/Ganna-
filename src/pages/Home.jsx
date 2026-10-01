@@ -4,6 +4,8 @@ import ganaImage2 from '../assets/gana2.jpeg';
 
 export default function Home({ onLogout }) {
   const [openCard, setOpenCard] = useState(null);
+  
+  // التعديل هنا: هذه الـ States الآن تتحكم في التبديل بين النص والصورة في سكشن الصور
   const [showImageText1, setShowImageText1] = useState(false);
   const [showImageText2, setShowImageText2] = useState(false);
 
@@ -54,8 +56,8 @@ export default function Home({ onLogout }) {
       title: "أنا بعمل كده ليه؟ 🤍",
       content: (
         <div className="space-y-3 text-right text-[#ded3ed] text-sm leading-relaxed">
-          <p>أنا بعمل كده علشان إنتي تستاهلي كل حاجة أنا بعملها، وتستاهلي أني أحاول علشانك حتى لو مش مع بعض.. أنا بعمل كده لأنك واحدة نضيفة من جواكي، وتستاهلي اللي يحبك بجد.</p>
-          <p>أنا بحس إنك تستاهلي أكتر من كده بكتير، وإني أنا كده معملتش حاجة أصلاً، إنتي تستاهلي حتة من الجنة على فكرة! لما كنت بحكي لستتي عنك، كانت مسميكي "حور الجنة".. وده بيخليني لما أتكلم في أي وقت عايز أقول عايز أقوله عن "حور الجنة" اللي شوفتها إمبارح وكانت بتفهمني. ربنا يرحمها يارب.</p>
+          <p>أنا بعمل كده علشان إنتي تستاهلي كل حاجة أنا بعملها، وتستاهلي أني أحاول علشانك حتى لو مع بعض.. أنا بعمل كده لأنك واحدة نضيفة من جواكي، وتستاهلي اللي يحبك بجد.</p>
+          <p>أنا بحبحس إنك تستاهلي أكتر من كده بكتير، وإني أنا كده معملتش حاجة أصلاً، إنتي تستاهلي حتة من الجنة على فكرة! لما كنت بحكي لستتي عنك، كانت مسميكي "حور الجنة".. وده بيخليني لما أتكلم في أي وقت عايز أقول عايز أقوله عن "حور الجنة" اللي شوفتها إمبارح وكانت بتفهمني. ربنا يرحمها يارب.</p>
           <p>على فكرة أنا بحمد ربنا كل مرة إنك دخلتي حياتي؛ كل اللي أنا فيه ده سببه ربنا الأول، وإنتي ثانياً. بجد إنتي اللي خلتني أصل لكده بحبك وبدعمك وبدعواتك وتحفيزك وكل شي عملتيه.</p>
           <p>أنا فاكر يوم المطر بجد.. وقتها أنا حسيت إن قلبي اتخلع من مكانه علشان شوفتك كده، وأنا آسف إنك وقتها خلتك توصلي لكده بجد.</p>
           <div className="bg-[#171021] border-r-4 border-[#8b65bc] p-3 rounded-xl text-[#f5f0fb] font-medium">
@@ -192,33 +194,47 @@ export default function Home({ onLogout }) {
           })}
         </div>
 
-        {/* ================= سكشن الصور المميزة ================= */}
+        {/* ================= سكشن الصور المميزة مع التفاعل المطلوب ================= */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           
-          {/* الصورة الأولى */}
-          <div className="bg-[#21182e]/80 backdrop-blur-xl border border-[#36274b]/50 rounded-3xl p-6 shadow-xl text-center space-y-5 flex flex-col justify-between">
+          {/* الكارد الأول */}
+          <div className="bg-[#21182e]/80 backdrop-blur-xl border border-[#36274b]/50 rounded-3xl p-6 shadow-xl text-center space-y-5 flex flex-col">
             <h3 className="text-base sm:text-lg font-bold text-[#f5f0fb]">
               أحلى صورة بينا 
             </h3>
 
+            {/* كونتينر الصورة */}
             <div 
-              onClick={() => setShowImageText1(!showImageText1)}
-              className="cursor-pointer group relative w-full h-72 rounded-2xl overflow-hidden border-2 border-[#594278]/40 hover:border-[#8b65bc] transition-all duration-300 shadow-lg mx-auto bg-[#0f0a17] flex items-center justify-center p-2"
+              onClick={() => setShowImageText1(!showImageText1)} // التبديل عند الضغط
+              className="cursor-pointer group relative w-full h-80 rounded-2xl overflow-hidden border-2 border-[#594278]/40 hover:border-[#8b65bc] transition-all duration-300 shadow-lg mx-auto bg-[#0f0a17] flex items-center justify-center p-2"
             >
+              {/* الصورة (تظهر عند الـ Hover، وتختفي عند الضغط على الصورة) */}
               <img 
                 src={ganaImage} 
                 alt="أحلى صورة بينا 1" 
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 rounded-xl"
+                className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 rounded-xl ${showImageText1 ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}
               />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="text-white text-xs sm:text-sm bg-[#291e39]/90 px-3 py-2 rounded-full backdrop-blur-md border border-[#8b65bc]/50 shadow-md">
-                  انقر لقراءة الحكاية ✨
-                </span>
+
+              {/* طبقة النص (تظهر افتراضياً، وتختفي عند الـ Hover، وتظهر مرة أخرى عند الضغط) */}
+              <div className={`absolute inset-0 bg-[#0f0a17]/95 p-5 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 ${showImageText1 ? 'opacity-100' : 'opacity-100 group-hover:opacity-0'}`}>
+                <span className="text-xl">💜</span>
+                <p className="text-[#ded3ed] text-sm leading-relaxed text-center">
+                  أنا فاكر الصورة دي برغم إننا اتصورنا يومها صور حلوة كتير، بس هي دي أحلاهم الصراحة... انقر هنا لرؤية الحكاية كاملة.
+                </p>
+                <span className="text-[#8b65bc] text-xs font-medium">انقر لعرض الصورة</span>
               </div>
+              
+              {/* مؤشر توضيحي يظهر عند الـ Hover */}
+              {!showImageText1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
+                  <span className="bg-[#8b65bc]/80 text-white text-[10px] px-3 py-1 rounded-full backdrop-blur-sm">اضغط لعرض النص</span>
+                </div>
+              )}
             </div>
 
+            {/* مساحة النص التفصيلي (تظهر فقط عند الضغط على الصورة) */}
             {showImageText1 && (
-              <div className="space-y-3 text-right animate-fadeIn text-[#ded3ed] text-sm leading-relaxed pt-3 border-t border-[#36274b]/50">
+              <div className="space-y-3 text-right animate-fadeIn text-[#ded3ed] text-sm leading-relaxed pt-3 border-t border-[#36274b]/50 mt-4">
                 <p>
                   أنا فاكر الصورة دي برغم إننا اتصورنا يومها صور حلوة كتير، بس هي دي أحلاهم الصراحة؛ كانت أول مقابلة بينا بعد مرحلة مش أحسن حاجة لينا، كانت فترة كبيرة ومش مع بعض، وقتها كان شكلك جميل وحلو أوي بجد.
                 </p>
@@ -226,39 +242,53 @@ export default function Home({ onLogout }) {
                   كل ما افتكر اليوم ده انبهر بجمالك كل مرة! أنا فاكر لما وصلنا إيه اللي حصل، لما طلعتي بره وقعدتي مع شهد واتكلمتوا، وأنا واقف ومحدش يعرف حاجة ولا عارفين نتكلم حتى.
                 </p>
                 <p>
-                  بس دخلنا بقا الفرح واليوم عدى بحلاوتك وروحك، وفاكر لما خلاص كنا هنروح، سبت صحابي وجيت معاكي في العربية مع الحاج سيد علشان نكون مع بعض. الحاج سيد قعد يتكلم ويتريق عليا بعدين، وأنا فاكر وقعدنا نتكلم كتير، وكانت أول مرة نقعد مع بعض بجد في اليوم ده.
+                  بس دخلنا بقا الفرح واليوم عدى بحلاوتك وروحك، وفاكر لما خلاص كنا هنروح، سبت صحابي وجيت معاكي في العربية مع الحاج سيد علشان نكون مع بعض. الحاج سيد قعد يتكلم ويتريق عليا بعدين، وأنا فاكر وقعدنا نتكلم نتكلم كتير، وكانت أول مرة نقعد مع بعض بجد في اليوم ده.
                 </p>
                 <div className="bg-[#171021] border-r-4 border-[#8b65bc] p-3 rounded-xl text-[#f5f0fb] font-medium">
                   أنا وقتها كنت مبسوط بيكي، وعلى فكرة أنا مبسوط بيكي لغاية دلوقتي برضه.. أنا بحب الصورة دي أوي، وبحبك أوي 🤍
                 </div>
+                {/* زر إخفاء النص */}
+                <button 
+                  onClick={() => setShowImageText1(false)}
+                  className="text-xs text-[#8b65bc] hover:text-white pt-2 transition-colors"
+                >
+                  إخفاء النص ▲
+                </button>
               </div>
             )}
           </div>
 
-          {/* الصورة الثانية */}
-          <div className="bg-[#21182e]/80 backdrop-blur-xl border border-[#36274b]/50 rounded-3xl p-6 shadow-xl text-center space-y-5 flex flex-col justify-between">
+          {/* الكارد الثاني (بنفس المنطق) */}
+          <div className="bg-[#21182e]/80 backdrop-blur-xl border border-[#36274b]/50 rounded-3xl p-6 shadow-xl text-center space-y-5 flex flex-col">
             <h3 className="text-base sm:text-lg font-bold text-[#f5f0fb]">
               أحلى صورة ليكي انا بحبها  
             </h3>
 
             <div 
               onClick={() => setShowImageText2(!showImageText2)}
-              className="cursor-pointer group relative w-full h-72 rounded-2xl overflow-hidden border-2 border-[#594278]/40 hover:border-[#8b65bc] transition-all duration-300 shadow-lg mx-auto bg-[#0f0a17] flex items-center justify-center p-2"
+              className="cursor-pointer group relative w-full h-80 rounded-2xl overflow-hidden border-2 border-[#594278]/40 hover:border-[#8b65bc] transition-all duration-300 shadow-lg mx-auto bg-[#0f0a17] flex items-center justify-center p-2"
             >
               <img 
                 src={ganaImage2} 
                 alt="أحلى صورة بينا 2" 
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 rounded-xl"
+                className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 rounded-xl ${showImageText2 ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}
               />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="text-white text-xs sm:text-sm bg-[#291e39]/90 px-3 py-2 rounded-full backdrop-blur-md border border-[#8b65bc]/50 shadow-md">
-                  انقر لقراءة الحكاية ✨
-                </span>
+              <div className={`absolute inset-0 bg-[#0f0a17]/95 p-5 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 ${showImageText2 ? 'opacity-100' : 'opacity-100 group-hover:opacity-0'}`}>
+                 <span className="text-xl">🤍</span>
+                <p className="text-[#ded3ed] text-sm leading-relaxed text-center">
+                  إنتي بجد أحلى حاجة موجودة.. شكلك قمر فعلاً، وأنا ربنا بيحبني عشان إنتي في حياتي.
+                </p>
+                <span className="text-[#8b65bc] text-xs font-medium">انقر لعرض الصورة</span>
               </div>
+                {!showImageText2 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
+                  <span className="bg-[#8b65bc]/80 text-white text-[10px] px-3 py-1 rounded-full backdrop-blur-sm">اضغط لعرض النص</span>
+                </div>
+              )}
             </div>
 
             {showImageText2 && (
-              <div className="space-y-3 text-right animate-fadeIn text-[#ded3ed] text-sm leading-relaxed pt-3 border-t border-[#36274b]/50">
+              <div className="space-y-3 text-right animate-fadeIn text-[#ded3ed] text-sm leading-relaxed pt-3 border-t border-[#36274b]/50 mt-4">
                 <p>
                   أنا بحب شعرك أوي وبخاف عليه جداً، وعايز دايم يكون كويس وفي أحسن حال على قد ما أقدر.
                 </p>
@@ -268,6 +298,12 @@ export default function Home({ onLogout }) {
                 <div className="bg-[#171021] border-r-4 border-[#8b65bc] p-3 rounded-xl text-[#f5f0fb] ">
                   أه إحنا مش مع بعض دلوقتي، بس هيجي يوم وهنكون مع بعض، وأنا متأكد بكدا ومش هتنازل عنه 🤍
                 </div>
+                <button 
+                  onClick={() => setShowImageText2(false)}
+                  className="text-xs text-[#8b65bc] hover:text-white pt-2 transition-colors"
+                >
+                  إخفاء النص ▲
+                </button>
               </div>
             )}
           </div>
@@ -307,13 +343,10 @@ export default function Home({ onLogout }) {
           </div>
         </section>
 
-        {/* ================= سكشن رسالة بخط اليد / جواب شخصي عميق ================= */}
-        <section className="bg-gradient-to-br from-[#241a33] via-[#1c1427] to-[#15101f]
-         border-2 border-[#8b65bc]/40 rounded-3xl p-7 sm:p-10 shadow-2xl relative overflow-hidde
-         n text-right">
+        {/* ================= سكشن رسالة خاصة ================= */}
+        <section className="bg-gradient-to-br from-[#241a33] via-[#1c1427] to-[#15101f] border-2 border-[#8b65bc]/40 rounded-3xl p-7 sm:p-10 shadow-2xl relative overflow-hidde n text-right">
           {/* تأثيرات جمالية */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#8b65bc]/10
-           rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#8b65bc]/10 rounded-full blur-3xl pointer-events-none"></div>
 
           <div className="space-y-6 relative z-10">
             <div className="flex items-center justify-between border-b border-[#36274b] pb-4">
@@ -322,7 +355,7 @@ export default function Home({ onLogout }) {
             </div>
 
             <div className="space-y-4 text-[#ded3ed] text-sm sm:text-base leading-loose">
-              <p className="text-[#f5f0fb] font-semibold text-base sm:text-lg">إلى جنة، حبيب ايامي   التي دخلت حياتي .. 🤍</p>
+              <p className="text-[#f5f0fb] font-semibold text-base sm:text-lg">إلى جنة، حبيب ايامي  التي دخلت حياتي .. 🤍</p>
               
               <p>
                 لو في حاجة واحدة متأكد منها في الدنيا دي، فهي إن وجودك في حياتي مش صدفة، دي نعمة ربنا رزقني بيها عشان أعرف يعني ايه حب صادق وأسلوب نقي من جوه.
@@ -365,7 +398,7 @@ export default function Home({ onLogout }) {
 
           <div className="pt-2">
             <a
-              href="https://www.youtube.com/watch?v=YOUR_SONG_LINK" // استبدل هذا الرابط برابط الأغنية بتاعتك
+              href="https://www.youtube.com/watch?v=AcuHWDvoBuc&list=RDAcuHWDvoBuc&index=1&pp=8AUB" // استبدل هذا الرابط برابط الأغنية بتاعتك
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#724e9f] to-[#8b65bc] hover:from-[#8b65bc] hover:to-[#9c75ce] text-white font-medium text-sm transition-all duration-300 shadow-lg shadow-[#8b65bc]/25 hover:scale-[1.02] cursor-pointer"
